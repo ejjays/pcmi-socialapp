@@ -30,7 +30,7 @@ export default function Navbar() {
         setIsVisible(false);
       }
     }, 100)); // Adjust duration as needed
-  }, [lastScrollY, scrollTimeout]); // Include dependencies
+  }, [lastScrollY]); // Only include lastScrollY here
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -40,7 +40,7 @@ export default function Navbar() {
         clearTimeout(scrollTimeout);
       }
     };
-  }, [handleScroll]); // Add handleScroll to the dependency array
+  }, [handleScroll, scrollTimeout]); // Add scrollTimeout to the dependency array
 
   return (
     <header className={`sticky top-0 z-10 bg-card shadow-sm transition-transform duration-120 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
