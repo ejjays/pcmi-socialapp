@@ -1,3 +1,5 @@
+"use client"; // Add this line at the top
+
 import { useEffect, useState } from "react";
 import SearchField from "@/components/SearchField";
 import UserButton from "@/components/UserButton";
