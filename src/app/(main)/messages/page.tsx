@@ -1,6 +1,8 @@
+"use client"; // Add this directive at the top
+
 import { Metadata } from "next";
 import Chat from "./Chat";
-import { useState } from "react";
+import { useState } from "react"; // This import is now valid
 
 export const metadata: Metadata = {
   title: "Messages",
