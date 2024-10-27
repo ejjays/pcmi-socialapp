@@ -49,7 +49,7 @@ export default function Navbar() {
   }, [lastScrollY, scrollTimeout]);
 
   return (
-    <header className={`sticky top-0 z-10 bg-card shadow-sm transition-transform duration-300 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
+    <header className={`sticky top-0 z-10 bg-card shadow-sm transition-transform duration-150 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-5 px-5 py-3">
         <Link href="/" className="text-2xl font-bold text-primary">
           bugbook
