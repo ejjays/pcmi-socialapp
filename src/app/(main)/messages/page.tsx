@@ -1,8 +1,8 @@
-"use client"; // Add this directive at the top
+"use client"; // This directive allows the use of hooks
 
 import Chat from "./Chat";
 import { useState } from "react";
-import { metadata } from "./metadata"; // Import from metadata file
+import { metadata } from "./metadata"; // Import the metadata
 
 export default function Page() {
   const [showTopBar, setShowTopBar] = useState(true); // State to control top bar visibility
@@ -14,6 +14,3 @@ export default function Page() {
     </>
   );
 }
-
-// Export the metadata here
-export { metadata };
