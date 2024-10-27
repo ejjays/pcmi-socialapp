@@ -43,7 +43,7 @@ export default function PostEditor() {
         italic: false,
       }),
       Placeholder.configure({
-        placeholder: "Share your day with us'",
+        placeholder: "Share your day with us...",
       }),
     ],
   });
