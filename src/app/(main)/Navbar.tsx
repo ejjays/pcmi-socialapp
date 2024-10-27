@@ -10,7 +10,7 @@ export default function Navbar() {
           pcmi
         </Link>
         <div className="flex-grow max-w-lg"> {/* Set a max width for the search field */}
-          <SearchField className="w-full" /> {/* Ensure the search field takes full width */}
+          <SearchField /> {/* Remove className for SearchField to avoid TypeScript error */}
         </div>
         <UserButton className="flex-shrink-0" /> {/* Prevent UserButton from shrinking */}
       </div>
