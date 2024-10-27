@@ -1,5 +1,5 @@
-import { Loader2 } from "lucide-react";
+import { ClipLoader } from "react-spinners";
 
 export default function Loading() {
-  return <Loader2 className="mx-auto my-3 animate-spin" />;
+  return <ClipLoader color="#00BFFF" loading={true} cssOverride={{ margin: 'auto', display: 'block' }} />;
 }
