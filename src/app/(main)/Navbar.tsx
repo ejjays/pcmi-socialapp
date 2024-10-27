@@ -9,8 +9,8 @@ export default function Navbar() {
         <Link href="/" className="text-2xl font-bold text-primary">
           pcmi
         </Link>
-        <div className="flex-grow"> {/* This will allow the search bar to take up available space */}
-          <SearchField className="w-full" /> {/* Ensure the search field takes full width of its container */}
+        <div className="flex-grow"> {/* This allows the search bar to adjust its width */}
+          <SearchField className="w-full" /> {/* Search bar takes the full width */}
         </div>
         <UserButton className="sm:ms-auto" /> {/* User button on the right */}
       </div>
