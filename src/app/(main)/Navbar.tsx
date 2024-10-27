@@ -35,7 +35,7 @@ export default function Navbar() {
       if (currentScrollY > lastScrollY) {
         setIsVisible(false);
       }
-    }, 10)); // Set a shorter duration for hiding the navbar (50ms)
+    }, 0)); // Set a shorter duration for hiding the navbar (50ms)
   };
 
   useEffect(() => {
