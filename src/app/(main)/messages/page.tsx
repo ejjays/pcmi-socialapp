@@ -1,3 +1,5 @@
+"use client"; // Add this directive at the top
+
 import Chat from "./Chat";
 import { useState } from "react";
 import { metadata } from "./metadata"; // Import from metadata file
