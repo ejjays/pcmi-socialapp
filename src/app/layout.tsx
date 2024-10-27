@@ -2,7 +2,6 @@
 
 import { Toaster } from "@/components/ui/toaster";
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
-import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
 import localFont from "next/font/local";
 import { extractRouterConfig } from "uploadthing/server";
@@ -12,6 +11,7 @@ import ReactQueryProvider from "./ReactQueryProvider";
 import { usePathname, useRouter } from "next/navigation";
 import ChatLayout from "@/components/ChatLayout";
 import MainLayout from "./main/layout";
+import { metadata } from "./head";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -21,14 +21,6 @@ const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
 });
-
-export const metadata: Metadata = {
-  title: {
-    template: "%s | bugbook",
-    default: "bugbook",
-  },
-  description: "The social media app for powernerds",
-};
 
 export default function RootLayout({
   children,
