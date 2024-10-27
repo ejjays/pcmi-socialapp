@@ -11,7 +11,7 @@ import StarterKit from "@tiptap/starter-kit";
 import { useDropzone } from "@uploadthing/react";
 import { Paperclip, Loader2, X } from "lucide-react";
 import Image from "next/image";
-import { ClipboardEvent, useRef, useEffect, useState } from "react"; // Add useEffect and useState
+import { ClipboardEvent, useRef, useEffect, useState } from "react";
 import { useSubmitPostMutation } from "./mutations";
 import "./styles.css";
 import useMediaUpload, { Attachment } from "./useMediaUpload";
@@ -61,6 +61,23 @@ export default function PostEditor() {
       }),
     ],
   });
+
+  // Update the placeholder whenever dots change
+  useEffect(() => {
+    if (editor) {
+      editor.setOptions({
+        extensions: [
+          StarterKit.configure({
+            bold: false,
+            italic: false,
+          }),
+          Placeholder.configure({
+            placeholder: `Share your thoughts with us${dots}`,
+          }),
+        ],
+      });
+    }
+  }, [dots, editor]);
 
   const input =
     editor?.getText({
