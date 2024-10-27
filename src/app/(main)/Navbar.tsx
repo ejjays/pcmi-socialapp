@@ -18,10 +18,12 @@ export default function Navbar() {
       clearTimeout(scrollTimeout);
     }
 
-    // If scrolling down and not already hidden
-    if (currentScrollY > lastScrollY && isVisible) {
+    // If scrolling down, hide the navbar immediately
+    if (currentScrollY > lastScrollY) {
       setIsVisible(false);
-    } else if (currentScrollY < lastScrollY && !isVisible) {
+    } 
+    // If scrolling up, show the navbar after a short delay
+    else {
       setIsVisible(true);
     }
 
@@ -32,10 +34,8 @@ export default function Navbar() {
     setScrollTimeout(setTimeout(() => {
       if (currentScrollY > lastScrollY) {
         setIsVisible(false);
-      } else {
-        setIsVisible(true);
       }
-    }, 100)); // Adjust the timeout duration as needed (100ms is a good start)
+    }, 50)); // Set a shorter duration for hiding the navbar (50ms)
   };
 
   useEffect(() => {
