@@ -7,7 +7,7 @@ import { extractRouterConfig } from "uploadthing/server";
 import { fileRouter } from "./api/uploadthing/core";
 import "./globals.css";
 import ReactQueryProvider from "./ReactQueryProvider";
-import { useRouter } from "next/router";
+import { usePathname, useRouter } from "next/navigation";
 import ChatLayout from "@/components/ChatLayout";
 import MainLayout from "./main/layout";
 
@@ -33,7 +33,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { pathname } = useRouter();
+  const pathname = usePathname();
   const isChatPage = pathname.startsWith("/chat");
 
   return (
