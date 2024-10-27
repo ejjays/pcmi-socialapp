@@ -8,25 +8,45 @@ import Link from "next/link";
 export default function Navbar() {
   const [isVisible, setIsVisible] = useState(true); // State to track visibility
   const [lastScrollY, setLastScrollY] = useState(0); // State to track last scroll position
+  const [scrollTimeout, setScrollTimeout] = useState<NodeJS.Timeout | null>(null); // For managing timeout
 
   const handleScroll = () => {
     const currentScrollY = window.scrollY;
-    if (currentScrollY > lastScrollY) {
-      // User is scrolling down
+
+    // Clear the previous timeout to prevent instant hide/show
+    if (scrollTimeout) {
+      clearTimeout(scrollTimeout);
+    }
+
+    // If scrolling down and not already hidden
+    if (currentScrollY > lastScrollY && isVisible) {
       setIsVisible(false);
-    } else {
-      // User is scrolling up
+    } else if (currentScrollY < lastScrollY && !isVisible) {
       setIsVisible(true);
     }
+
+    // Update last scroll position
     setLastScrollY(currentScrollY);
+
+    // Set a timeout to hide the navbar if the user stops scrolling
+    setScrollTimeout(setTimeout(() => {
+      if (currentScrollY > lastScrollY) {
+        setIsVisible(false);
+      } else {
+        setIsVisible(true);
+      }
+    }, 100)); // Adjust the timeout duration as needed (100ms is a good start)
   };
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      if (scrollTimeout) {
+        clearTimeout(scrollTimeout); // Clean up timeout on unmount
+      }
     };
-  }, [lastScrollY]);
+  }, [lastScrollY, scrollTimeout]);
 
   return (
     <header className={`sticky top-0 z-10 bg-card shadow-sm transition-transform duration-300 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
