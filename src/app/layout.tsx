@@ -1,17 +1,12 @@
-"use client";
-
 import { Toaster } from "@/components/ui/toaster";
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
+import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
 import localFont from "next/font/local";
 import { extractRouterConfig } from "uploadthing/server";
 import { fileRouter } from "./api/uploadthing/core";
 import "./globals.css";
 import ReactQueryProvider from "./ReactQueryProvider";
-import { usePathname, useRouter } from "next/navigation";
-import ChatLayout from "@/components/ChatLayout";
-import MainLayout from "./main/layout";
-import { metadata } from "./head";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -22,14 +17,19 @@ const geistMono = localFont({
   variable: "--font-geist-mono",
 });
 
+export const metadata: Metadata = {
+  title: {
+    template: "%s | bugbook",
+    default: "bugbook",
+  },
+  description: "The social media app for powernerds",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const pathname = usePathname();
-  const isChatPage = pathname.startsWith("/chat");
-
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
@@ -41,11 +41,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            {isChatPage ? (
-              <ChatLayout>{children}</ChatLayout>
-            ) : (
-              <MainLayout>{children}</MainLayout>
-            )}
+            {children}
           </ThemeProvider>
         </ReactQueryProvider>
         <Toaster />
