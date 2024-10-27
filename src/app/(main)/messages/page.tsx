@@ -1,10 +1,6 @@
-import { Metadata } from "next";
 import Chat from "./Chat";
 import { useState } from "react";
-
-export const metadata: Metadata = {
-  title: "Messages",
-};
+import { metadata } from "./metadata"; // Import from metadata file
 
 export default function Page() {
   const [showTopBar, setShowTopBar] = useState(true); // State to control top bar visibility
@@ -16,3 +12,6 @@ export default function Page() {
     </>
   );
 }
+
+// Export the metadata here
+export { metadata };
