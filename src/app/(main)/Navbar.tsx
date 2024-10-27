@@ -22,7 +22,7 @@ export default function Navbar() {
     if (currentScrollY > lastScrollY) {
       setIsVisible(false);
     } 
-    // If scrolling up, show the navbar after a short delay
+    // If scrolling up, show the navbar
     else {
       setIsVisible(true);
     }
@@ -35,7 +35,7 @@ export default function Navbar() {
       if (currentScrollY > lastScrollY) {
         setIsVisible(false);
       }
-    }, 0)); // Set a shorter duration for hiding the navbar (50ms)
+    }, 100)); // Adjust duration as needed
   };
 
   useEffect(() => {
@@ -46,7 +46,7 @@ export default function Navbar() {
         clearTimeout(scrollTimeout); // Clean up timeout on unmount
       }
     };
-  }, [lastScrollY, scrollTimeout]);
+  }, [lastScrollY, scrollTimeout]); // handleScroll is not included, but it's okay since it's defined within the component
 
   return (
     <header className={`sticky top-0 z-10 bg-card shadow-sm transition-transform duration-120 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
