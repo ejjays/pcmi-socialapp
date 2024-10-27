@@ -7,6 +7,9 @@ import { extractRouterConfig } from "uploadthing/server";
 import { fileRouter } from "./api/uploadthing/core";
 import "./globals.css";
 import ReactQueryProvider from "./ReactQueryProvider";
+import { useRouter } from "next/router";
+import ChatLayout from "@/components/ChatLayout";
+import MainLayout from "./main/layout";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -30,6 +33,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const { pathname } = useRouter();
+  const isChatPage = pathname.startsWith("/chat");
+
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
@@ -41,7 +47,11 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            {children}
+            {isChatPage ? (
+              <ChatLayout>{children}</ChatLayout>
+            ) : (
+              <MainLayout>{children}</MainLayout>
+            )}
           </ThemeProvider>
         </ReactQueryProvider>
         <Toaster />
