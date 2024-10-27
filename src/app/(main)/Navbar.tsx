@@ -35,7 +35,7 @@ export default function Navbar() {
       if (currentScrollY > lastScrollY) {
         setIsVisible(false);
       }
-    }, 50)); // Set a shorter duration for hiding the navbar (50ms)
+    }, 0)); // Set a shorter duration for hiding the navbar (50ms)
   };
 
   useEffect(() => {
@@ -52,7 +52,7 @@ export default function Navbar() {
     <header className={`sticky top-0 z-10 bg-card shadow-sm transition-transform duration-300 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-5 px-5 py-3">
         <Link href="/" className="text-2xl font-bold text-primary">
-          bugbook
+          pcmi
         </Link>
         <div className="flex-grow max-w-lg">
           <SearchField />
