@@ -141,7 +141,7 @@ function AddAttachmentsButton({
         disabled={disabled}
         onClick={() => fileInputRef.current?.click()}
       >
-        <ImageIcon size={20} />
+        <Paperclip size={20} />
       </Button>
       <input
         type="file"
