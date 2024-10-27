@@ -11,14 +11,13 @@ import StarterKit from "@tiptap/starter-kit";
 import { useDropzone } from "@uploadthing/react";
 import { Paperclip, Loader2, X } from "lucide-react";
 import Image from "next/image";
-import { ClipboardEvent, useRef } from "react";
+import { ClipboardEvent, useRef, useEffect, useState } from "react"; // Add useEffect and useState
 import { useSubmitPostMutation } from "./mutations";
 import "./styles.css";
 import useMediaUpload, { Attachment } from "./useMediaUpload";
 
 export default function PostEditor() {
   const { user } = useSession();
-
   const mutation = useSubmitPostMutation();
 
   const {
@@ -36,6 +35,21 @@ export default function PostEditor() {
 
   const { onClick, ...rootProps } = getRootProps();
 
+  // State to manage the animated dots
+  const [dots, setDots] = useState("");
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setDots((prev) => {
+        if (prev === "...") return ".";
+        if (prev === "..") return "...";
+        return prev + ".";
+      });
+    }, 1000); // Update every second
+
+    return () => clearInterval(interval); // Clean up on component unmount
+  }, []);
+
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -43,7 +57,7 @@ export default function PostEditor() {
         italic: false,
       }),
       Placeholder.configure({
-        placeholder: "Share your day with us...",
+        placeholder: `Share your thoughts with us${dots}`, // Use the animated dots
       }),
     ],
   });
