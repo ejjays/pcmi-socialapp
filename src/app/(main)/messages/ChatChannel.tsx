@@ -23,8 +23,7 @@ export default function ChatChannel({ open, openSidebar }: ChatChannelProps) {
           <CustomChannelHeader openSidebar={openSidebar} />
           <div className="overflow-y-auto" style={{ maxHeight: "calc(100vh - 60px)" }}>
             <MessageList 
-              // Remove className here if it's causing an error
-              style={{ maxHeight: "100%" }} // Ensure it fills the height of the container
+              // Removed className and style props
             />
           </div>
           <MessageInput />
