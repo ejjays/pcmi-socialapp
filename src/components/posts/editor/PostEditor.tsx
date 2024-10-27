@@ -57,27 +57,10 @@ export default function PostEditor() {
         italic: false,
       }),
       Placeholder.configure({
-        placeholder: `Share your thoughts with us${dots}`, // Use the animated dots
+        placeholder: () => `Share your thoughts with us${dots}`, // Use a function to return the placeholder
       }),
     ],
   });
-
-  // Update the placeholder whenever dots change
-  useEffect(() => {
-    if (editor) {
-      editor.setOptions({
-        extensions: [
-          StarterKit.configure({
-            bold: false,
-            italic: false,
-          }),
-          Placeholder.configure({
-            placeholder: `Share your thoughts with us${dots}`,
-          }),
-        ],
-      });
-    }
-  }, [dots, editor]);
 
   const input =
     editor?.getText({
