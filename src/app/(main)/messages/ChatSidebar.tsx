@@ -11,7 +11,6 @@ import {
 } from "stream-chat-react";
 import { useSession } from "../SessionProvider";
 import NewChatDialog from "./NewChatDialog";
-import { useMediaQuery } from "@react-hook/media-query";
 
 interface ChatSidebarProps {
   open: boolean;
@@ -25,7 +24,20 @@ export default function ChatSidebar({ open, onClose }: ChatSidebarProps) {
 
   const { channel } = useChatContext();
 
-  const isMobile = useMediaQuery("(max-width: 767px)");
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 767);
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize(); // Initial check
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     if (channel?.id) {
