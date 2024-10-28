@@ -47,6 +47,17 @@ export async function POST(
 
     const { userId } = await req.json();
 
+    // Check if the user exists
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+
+    if (!user) {
+      return Response.json({ error: "User not found" }, { status: 404 });
+    }
+
     // Update the user's isVerified field using a raw SQL query
     await prisma.$queryRaw`
       UPDATE "users"
