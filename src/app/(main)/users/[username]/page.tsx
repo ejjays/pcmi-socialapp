@@ -4,6 +4,7 @@ import FollowerCount from "@/components/FollowerCount";
 import Linkify from "@/components/Linkify";
 import TrendsSidebar from "@/components/TrendsSidebar";
 import UserAvatar from "@/components/UserAvatar";
+import VerifiedCheckmark from "@/components/VerifiedCheckmark"; // Import the VerifiedCheckmark component
 import prisma from "@/lib/prisma";
 import { FollowerInfo, getUserDataSelect, UserData } from "@/lib/types";
 import { formatNumber } from "@/lib/utils";
@@ -100,7 +101,10 @@ async function UserProfile({ user, loggedInUserId }: UserProfileProps) {
       <div className="flex flex-wrap gap-3 sm:flex-nowrap">
         <div className="me-auto space-y-3">
           <div>
-            <h1 className="text-3xl font-bold">{user.displayName}</h1>
+            <h1 className="text-3xl font-bold">
+              {user.displayName}
+              <VerifiedCheckmark isVerified={user.isVerified} /> {/* Add the VerifiedCheckmark component */}
+            </h1>
             <div className="text-muted-foreground">@{user.username}</div>
           </div>
           <div>Member since {formatDate(user.createdAt, "MMM d, yyyy")}</div>
