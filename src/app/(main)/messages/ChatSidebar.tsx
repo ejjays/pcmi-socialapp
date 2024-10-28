@@ -61,7 +61,7 @@ export default function ChatSidebar({ open, onClose }: ChatSidebarProps) {
     <div
       className={cn(
         "size-full flex-col border-e",
-        isMobile ? (open ? "flex" : "hidden") : "md:flex md:w-72"
+        isMobile ? (open ? "flex" : "hidden") : (open ? "flex md:w-72" : "hidden")
       )}
       style={{ zIndex: 10 }}
     >
