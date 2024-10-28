@@ -58,6 +58,11 @@ export default function ChatSidebar({ open, onClose }: ChatSidebarProps) {
     [onClose],
   );
 
+  useEffect(() => {
+    // Set the initial state of the sidebar based on screen size
+    setIsMobile(window.innerWidth <= 767);
+  }, []);
+
   return (
     <div
       className={cn(
