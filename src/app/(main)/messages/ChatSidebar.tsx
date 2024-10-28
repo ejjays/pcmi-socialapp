@@ -25,9 +25,12 @@ export default function ChatSidebar({ open, onClose }: ChatSidebarProps) {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 767);
+      const isMobileScreen = window.innerWidth <= 767;
+      console.log(`Resizing: isMobile: ${isMobileScreen}`);
+      setIsMobile(isMobileScreen);
     };
     window.addEventListener("resize", handleResize);
+    handleResize(); // Initial check
     return () => {
       window.removeEventListener("resize", handleResize);
     };
@@ -51,6 +54,8 @@ export default function ChatSidebar({ open, onClose }: ChatSidebarProps) {
     ),
     [onClose],
   );
+
+  console.log(`Rendering Sidebar: isMobile: ${isMobile}, open: ${open}`);
 
   return (
     <div
