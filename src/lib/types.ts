@@ -22,7 +22,6 @@ export function getUserDataSelect(loggedInUserId: string) {
         followers: true,
       },
     },
-    isVerified: true, // Add the isVerified property
   } satisfies Prisma.UserSelect;
 }
 
