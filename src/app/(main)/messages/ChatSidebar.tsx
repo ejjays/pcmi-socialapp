@@ -63,6 +63,7 @@ export default function ChatSidebar({ open, onClose }: ChatSidebarProps) {
         "size-full flex-col border-e",
         isMobile ? (open ? "flex" : "hidden") : "md:flex md:w-72"
       )}
+      style={{ zIndex: 10 }} // Ensure it appears on top
     >
       <MenuHeader onClose={onClose} />
       <ChannelList
