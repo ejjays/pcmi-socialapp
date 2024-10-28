@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useQueryClient } from "@tanstack/react-query";
 import { MailPlus, X } from "lucide-react";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   ChannelList,
   ChannelPreviewMessenger,
@@ -23,6 +23,21 @@ export default function ChatSidebar({ open, onClose }: ChatSidebarProps) {
   const queryClient = useQueryClient();
 
   const { channel } = useChatContext();
+
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 767);
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize(); // Initial check
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     if (channel?.id) {
@@ -47,9 +62,7 @@ export default function ChatSidebar({ open, onClose }: ChatSidebarProps) {
     <div
       className={cn(
         "size-full flex-col border-e",
-        open ? "flex" : "hidden",
-        "md:flex md:w-72",
-        "sm:flex sm:w-full"
+        isMobile ? (open ? "flex" : "hidden") : "md:flex md:w-72"
       )}
     >
       <MenuHeader onClose={onClose} />
