@@ -58,13 +58,7 @@ export default function ChatSidebar({ open, onClose }: ChatSidebarProps) {
   console.log(`Rendering Sidebar: isMobile: ${isMobile}, open: ${open}`);
 
   return (
-    <div
-      className={cn(
-        "size-full flex-col border-e",
-        isMobile ? (open ? "flex" : "hidden") : (open ? "flex md:w-72" : "hidden")
-      )}
-      style={{ zIndex: 10 }}
-    >
+    <div className="size-full flex-col border-e flex md:w-72" style={{ zIndex: 10 }}>
       <MenuHeader onClose={onClose} />
       <ChannelList
         filters={{
