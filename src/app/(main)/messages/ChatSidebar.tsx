@@ -21,7 +21,7 @@ export default function ChatSidebar({ open, onClose }: ChatSidebarProps) {
   const { user } = useSession();
   const queryClient = useQueryClient();
   const { channel } = useChatContext();
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState<boolean | null>(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -52,6 +52,11 @@ export default function ChatSidebar({ open, onClose }: ChatSidebarProps) {
     ),
     [onClose],
   );
+
+  // Only render once the isMobile state is determined
+  if (isMobile === null) {
+    return null;
+  }
 
   return (
     <div
