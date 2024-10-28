@@ -27,7 +27,9 @@ interface UserButtonProps {
 
 export default function UserButton({ className }: UserButtonProps) {
   const { user } = useSession();
+
   const { theme, setTheme } = useTheme();
+
   const queryClient = useQueryClient();
 
   return (
