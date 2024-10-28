@@ -24,7 +24,9 @@ model User {
   googleId              String?        @unique
   avatarUrl             String?
   bio                   String?
-  isVerified            Boolean        @default(false) // Add the isVerified field
+  isVerified            Boolean
+@default(false) 
+@default(false) // Add the isVerified field
   sessions              Session[]
   posts                 Post[]
   following             Follow[]       @relation("Following")
