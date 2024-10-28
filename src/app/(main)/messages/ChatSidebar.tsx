@@ -8,6 +8,7 @@ import {
   ChannelPreviewMessenger,
   ChannelPreviewUIComponentProps,
   useChatContext,
+  ChatContextValue,
 } from "stream-chat-react";
 import { useSession } from "../SessionProvider";
 import NewChatDialog from "./NewChatDialog";
@@ -20,13 +21,12 @@ interface ChatSidebarProps {
 export default function ChatSidebar({ open, onClose }: ChatSidebarProps) {
   const { user } = useSession();
   const queryClient = useQueryClient();
-  const { channel, setActiveChannel } = useChatContext();
+  const { channel, setActiveChannel }: ChatContextValue = useChatContext();
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
 
   useEffect(() => {
     const handleResize = () => {
       const isMobileScreen = window.innerWidth <= 767;
-      console.log(`Resizing: isMobile: ${isMobileScreen}`);
       setIsMobile(isMobileScreen);
     };
     window.addEventListener("resize", handleResize);
@@ -55,13 +55,11 @@ export default function ChatSidebar({ open, onClose }: ChatSidebarProps) {
     [setActiveChannel, onClose],
   );
 
-  console.log(`Rendering Sidebar: isMobile: ${isMobile}, open: ${open}`);
-
   return (
     <div
       className={cn(
         "size-full flex-col border-e",
-        isMobile ? "flex" : "md:flex md:w-72"
+        isMobile ? (open ? "flex" : "hidden") : "md:flex md:w-72"
       )}
       style={{ zIndex: 10 }}
     >
