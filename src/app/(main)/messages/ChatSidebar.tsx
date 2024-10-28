@@ -58,7 +58,8 @@ export default function ChatSidebar({ open, onClose }: ChatSidebarProps) {
     <div
       className={cn(
         "size-full flex-col border-e transition-transform duration-1000 ease-in-out",
-        isMobile ? (open ? "transform translate-x-0" : "transform -translate-x-full") : "md:transform md:translate-x-0"
+        open ? "transform translate-x-0" : "transform -translate-x-full",
+        "md:transform md:translate-x-0"
       )}
       style={{ zIndex: 10 }}
     >
