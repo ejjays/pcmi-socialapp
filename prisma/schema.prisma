@@ -24,7 +24,6 @@ model User {
   googleId              String?        @unique
   avatarUrl             String?
   bio                   String?
-  isVerified            Boolean
   sessions              Session[]
   posts                 Post[]
   following             Follow[]       @relation("Following")
