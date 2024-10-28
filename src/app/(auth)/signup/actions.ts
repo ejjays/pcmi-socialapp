@@ -63,6 +63,7 @@ export async function signUp(
           displayName: username,
           email,
           passwordHash,
+          isVerified: false, // Add this line
         },
       });
       await streamServerClient.upsertUser({
