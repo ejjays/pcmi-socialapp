@@ -3,7 +3,7 @@
 import { useSession } from "@/app/(main)/SessionProvider";
 import { FollowerInfo, UserData } from "@/lib/types";
 import Link from "next/link";
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useState } from "react";
 import FollowButton from "./FollowButton";
 import FollowerCount from "./FollowerCount";
 import Linkify from "./Linkify";
@@ -15,6 +15,7 @@ import {
 } from "./ui/tooltip";
 import UserAvatar from "./UserAvatar";
 import VerifiedCheckmark from "./VerifiedCheckmark";
+import kyInstance from "@/lib/ky";
 
 interface UserTooltipProps extends PropsWithChildren {
   user: UserData;
@@ -22,12 +23,27 @@ interface UserTooltipProps extends PropsWithChildren {
 
 export default function UserTooltip({ children, user }: UserTooltipProps) {
   const { user: loggedInUser } = useSession();
+  const [isVerifying, setIsVerifying] = useState(false);
 
   const followerState: FollowerInfo = {
     followers: user._count.followers,
     isFollowedByUser: !!user.followers.some(
       ({ followerId }) => followerId === loggedInUser.id,
     ),
+  };
+
+  const handleVerify = async () => {
+    setIsVerifying(true);
+    try {
+      await kyInstance.post(`/api/users/username/[username]`, {
+        json: { userId: user.id },
+      });
+      // Optionally, you can update the user data in the cache here
+    } catch (error) {
+      console.error("Error verifying user:", error);
+    } finally {
+      setIsVerifying(false);
+    }
   };
 
   return (
@@ -42,6 +58,16 @@ export default function UserTooltip({ children, user }: UserTooltipProps) {
               </Link>
               {loggedInUser.id !== user.id && (
                 <FollowButton userId={user.id} initialState={followerState} />
+              )}
+              {loggedInUser.isAdmin && (
+                <button
+                  className="rounded-full bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+                  onClick={handleVerify}
+                  disabled={isVerifying}
+                >
+                  {isVerifying ? "Verifying..." : "Verify User"}
+                }
+                </button>
               )}
             </div>
             <div>
