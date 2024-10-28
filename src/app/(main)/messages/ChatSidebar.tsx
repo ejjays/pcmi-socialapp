@@ -59,7 +59,7 @@ export default function ChatSidebar({ open, onClose }: ChatSidebarProps) {
 
   return (
     <div className="size-full flex-col border-e flex md:w-72" style={{ zIndex: 10 }}>
-      <MenuHeader onClose={onClose} />
+       <MenuHeader onClose={onClose} />
       <ChannelList
         filters={{
           type: "messaging",
@@ -88,6 +88,7 @@ interface MenuHeaderProps {
 
 function MenuHeader({ onClose }: MenuHeaderProps) {
   const [showNewChatDialog, setShowNewChatDialog] = useState(false);
+
   return (
     <>
       <div className="flex items-center gap-3 p-2">
