@@ -25,7 +25,6 @@ model User {
   avatarUrl             String?
   bio                   String?
   isVerified            Boolean
-@default(false)
   sessions              Session[]
   posts                 Post[]
   following             Follow[]       @relation("Following")
