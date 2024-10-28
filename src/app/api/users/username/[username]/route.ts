@@ -1,79 +1,69 @@
-import { validateRequest } from "@/auth";
-import prisma from "@/lib/prisma";
-import { getUserDataSelect } from "@/lib/types";
+import { useSession } from "@/app/(main)/SessionProvider";
+import { FollowerInfo, UserData } from "@/lib/types";
+import Link from "next/link";
+import { PropsWithChildren } from "react";
+import FollowButton from "./FollowButton";
+import FollowerCount from "./FollowerCount";
+import Linkify from "./Linkify";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "./ui/tooltip";
+import UserAvatar from "./UserAvatar";
+import VerifiedCheckmark from "./VerifiedCheckmark";
 
-export async function GET(
-  req: Request,
-  { params: { username } }: { params: { username: string } }
-) {
-  try {
-    const { user: loggedInUser } = await validateRequest();
-
-    if (!loggedInUser) {
-      return Response.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    const user = await prisma.user.findFirst({
-      where: {
-        username: {
-          equals: username,
-          mode: "insensitive",
-        },
-      },
-      select: getUserDataSelect(loggedInUser.id),
-    });
-
-    if (!user) {
-      return Response.json({ error: "User not found" }, { status: 404 });
-    }
-
-    return Response.json(user);
-  } catch (error) {
-    console.error(error);
-    return Response.json({ error: "Internal server error" }, { status: 500 });
-  }
+interface UserTooltipProps extends PropsWithChildren {
+  user: UserData;
 }
 
-export async function POST(
-  req: Request,
-  { params: { username } }: { params: { username: string } }
-) {
-  try {
-    const { user: loggedInUser } = await validateRequest();
+export default function UserTooltip({ children, user }: UserTooltipProps) {
+  const { user: loggedInUser } = useSession();
 
-    if (!loggedInUser || !loggedInUser.isAdmin) {
-      return Response.json({ error: "Unauthorized" }, { status: 401 });
-    }
+  const followerState: FollowerInfo = {
+    followers: user._count.followers,
+    isFollowedByUser: !!user.followers.some(
+      ({ followerId }) => followerId === loggedInUser.id,
+    ),
+  };
 
-    const { userId } = await req.json();
-
-    // Check if the user exists
-    const user = await prisma.user.findUnique({
-      where: {
-        id: userId,
-      },
-    });
-
-    if (!user) {
-      return Response.json({ error: "User not found" }, { status: 404 });
-    }
-
-    // Update the user's isVerified field using a raw SQL query
-    await prisma.$queryRaw`
-      UPDATE "users"
-      SET "isVerified" = true
-      WHERE "id" = ${userId}
-    `;
-
-    const updatedUser = await prisma.user.findUnique({
-      where: {
-        id: userId,
-      },
-    });
-
-    return Response.json(updatedUser);
-  } catch (error) {
-    console.error("Error updating user:", error);
-    return Response.json({ error: "Error updating user" }, { status: 500 });
-  }
+  return (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>{children}</TooltipTrigger>
+        <TooltipContent>
+          <div className="flex max-w-80 flex-col gap-3 break-words px-1 py-2.5 md:min-w-52">
+            <div className="flex items-center justify-between gap-2">
+              <Link href={`/users/${user.username}`}>
+                <UserAvatar size={70} avatarUrl={user.avatarUrl} />
+              </Link>
+              {loggedInUser.id !== user.id && (
+                <FollowButton userId={user.id} initialState={followerState} />
+              )}
+            </div>
+            <div>
+              <Link href={`/users/${user.username}`}>
+                <div className="flex items-center">
+                  <span className="text-lg font-semibold hover:underline">
+                    {user.displayName}
+                  </span>
+                  <VerifiedCheckmark isVerified={user.isVerified} />
+                </div>
+                <div className="text-muted-foreground">@{user.username}</div>
+              </Link>
+            </div>
+            {user.bio && (
+              <Linkify>
+                <div className="line-clamp-4 whitespace-pre-line">
+                  {user.bio}
+                </div>
+              </Linkify>
+            )}
+            <FollowerCount userId={user.id} initialState={followerState} />
+          </div>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  );
 }
