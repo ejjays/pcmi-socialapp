@@ -57,11 +57,11 @@ export default function ChatSidebar({ open, onClose }: ChatSidebarProps) {
   return (
     <div
       className={cn(
-        "size-full flex-col border-e transition-transform duration-1000 ease-in-out",
+        "size-full flex-col border-e transition-transform duration-700 ease-in-out",
         open ? "transform translate-x-0" : "transform -translate-x-full",
-        "md:transform md:translate-x-0"
+        "md:transform md:translate-x-0 md:w-72"
       )}
-      style={{ zIndex: 10 }}
+      style={{ zIndex: 10, position: 'absolute', top: 0, left: 0, height: '100%' }}
     >
       <MenuHeader onClose={onClose} />
       <ChannelList
