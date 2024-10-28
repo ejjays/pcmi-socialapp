@@ -20,7 +20,7 @@ interface ChatSidebarProps {
 export default function ChatSidebar({ open, onClose }: ChatSidebarProps) {
   const { user } = useSession();
   const queryClient = useQueryClient();
-  const { channel } = useChatContext();
+  const { channel, setActiveChannel } = useChatContext();
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
 
   useEffect(() => {
@@ -47,19 +47,25 @@ export default function ChatSidebar({ open, onClose }: ChatSidebarProps) {
       <ChannelPreviewMessenger
         {...props}
         onSelect={() => {
-          props.setActiveChannel?.(props.channel, props.watchers);
+          setActiveChannel(props.channel, props.watchers);
           onClose();
         }}
       />
     ),
-    [onClose],
+    [setActiveChannel, onClose],
   );
 
   console.log(`Rendering Sidebar: isMobile: ${isMobile}, open: ${open}`);
 
   return (
-    <div className="size-full flex-col border-e flex md:w-72" style={{ zIndex: 10 }}>
-       <MenuHeader onClose={onClose} />
+    <div
+      className={cn(
+        "size-full flex-col border-e",
+        isMobile ? "flex" : "md:flex md:w-72"
+      )}
+      style={{ zIndex: 10 }}
+    >
+      <MenuHeader onClose={onClose} />
       <ChannelList
         filters={{
           type: "messaging",
@@ -88,7 +94,6 @@ interface MenuHeaderProps {
 
 function MenuHeader({ onClose }: MenuHeaderProps) {
   const [showNewChatDialog, setShowNewChatDialog] = useState(false);
-
   return (
     <>
       <div className="flex items-center gap-3 p-2">
