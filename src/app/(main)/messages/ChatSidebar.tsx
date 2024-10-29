@@ -25,8 +25,7 @@ export default function ChatSidebar({ open, onClose }: ChatSidebarProps) {
 
   useEffect(() => {
     const handleResize = () => {
-      const isMobileScreen = window.innerWidth <= 767;
-      setIsMobile(isMobileScreen);
+      setIsMobile(window.innerWidth <= 767);
     };
     window.addEventListener("resize", handleResize);
     handleResize(); // Initial check
@@ -62,7 +61,7 @@ export default function ChatSidebar({ open, onClose }: ChatSidebarProps) {
           open ? "transform translate-x-0" : "transform -translate-x-full",
           "md:transform md:translate-x-0"
         )}
-        style={{ zIndex: 10, width: isMobile ? '100%' : '300px' }}
+        style={{ zIndex: 10, width: isMobile ? '100%' : '300px', height: '100%' }}
       >
         <MenuHeader onClose={onClose} />
         <ChannelList
