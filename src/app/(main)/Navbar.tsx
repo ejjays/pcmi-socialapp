@@ -1,6 +1,6 @@
 "use client"; // Add this line at the top
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import SearchField from "@/components/SearchField";
 import UserButton from "@/components/UserButton";
 import Link from "next/link";
@@ -10,7 +10,7 @@ export default function Navbar() {
   const [lastScrollY, setLastScrollY] = useState(0); // State to track last scroll position
   const [scrollTimeout, setScrollTimeout] = useState<NodeJS.Timeout | null>(null); // For managing timeout
 
-  const handleScroll = () => {
+  const handleScroll = useCallback(() => {
     const currentScrollY = window.scrollY;
 
     // Clear the previous timeout to prevent instant hide/show
@@ -35,8 +35,8 @@ export default function Navbar() {
       if (currentScrollY > lastScrollY) {
         setIsVisible(false);
       }
-    }, 0)); // Set a shorter duration for hiding the navbar (50ms)
-  };
+    }, 50)); // Adjust the duration for hiding the navbar if needed
+  }, [lastScrollY, scrollTimeout]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -46,7 +46,7 @@ export default function Navbar() {
         clearTimeout(scrollTimeout); // Clean up timeout on unmount
       }
     };
-  }, [lastScrollY, scrollTimeout]);
+  }, [handleScroll, scrollTimeout]); // Include 'handleScroll' in the dependency array
 
   return (
     <header className={`sticky top-0 z-10 bg-card shadow-sm transition-transform duration-300 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
