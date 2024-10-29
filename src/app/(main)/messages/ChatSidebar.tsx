@@ -8,7 +8,6 @@ import {
   ChannelPreviewMessenger,
   ChannelPreviewUIComponentProps,
   useChatContext,
-  ChatContextValue,
 } from "stream-chat-react";
 import { useSession } from "../SessionProvider";
 import NewChatDialog from "./NewChatDialog";
@@ -21,7 +20,7 @@ interface ChatSidebarProps {
 export default function ChatSidebar({ open, onClose }: ChatSidebarProps) {
   const { user } = useSession();
   const queryClient = useQueryClient();
-  const { channel, setActiveChannel }: ChatContextValue = useChatContext();
+  const { channel, setActiveChannel } = useChatContext();
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
 
   useEffect(() => {
@@ -56,32 +55,37 @@ export default function ChatSidebar({ open, onClose }: ChatSidebarProps) {
   );
 
   return (
-    <div
-      className={cn(
-        "size-full flex-col border-e",
-        isMobile ? (open ? "flex" : "hidden") : "md:flex md:w-72"
-      )}
-      style={{ zIndex: 10 }}
-    >
-      <MenuHeader onClose={onClose} />
-      <ChannelList
-        filters={{
-          type: "messaging",
-          members: { $in: [user.id] },
-        }}
-        showChannelSearch
-        options={{ state: true, presence: true, limit: 8 }}
-        sort={{ last_message_at: -1 }}
-        additionalChannelSearchProps={{
-          searchForChannels: true,
-          searchQueryParams: {
-            channelFilters: {
-              filters: { members: { $in: [user.id] } },
+    <div style={{ display: 'flex', height: '100%' }}>
+      <div
+        className={cn("size-full flex-col border-e")}
+        style={{ width: '300px', zIndex: 10, position: 'relative' }}
+      >
+        <MenuHeader onClose={onClose} />
+        <ChannelList
+          filters={{
+            type: "messaging",
+            members: { $in: [user.id] },
+          }}
+          showChannelSearch
+          options={{ state: true, presence: true, limit: 8 }}
+          sort={{ last_message_at: -1 }}
+          additionalChannelSearchProps={{
+            searchForChannels: true,
+            searchQueryParams: {
+              channelFilters: {
+                filters: { members: { $in: [user.id] } },
+              },
             },
-          },
-        }}
-        Preview={ChannelPreviewCustom}
-      />
+          }}
+          Preview={ChannelPreviewCustom}
+        />
+      </div>
+      <div
+        className="main-chat-content"
+        style={{ flex: 1, overflow: 'auto' }}
+      >
+        {/* Main chat content goes here */}
+      </div>
     </div>
   );
 }
