@@ -5,7 +5,7 @@ import Linkify from "@/components/Linkify";
 import TrendsSidebar from "@/components/TrendsSidebar";
 import UserAvatar from "@/components/UserAvatar";
 import prisma from "@/lib/prisma";
-import { FollowerInfo, getUserDataSelect, UserData } from "@/lib/types";
+import { FollowerInfo, UserData } from "@/lib/types";
 import { formatNumber } from "@/lib/utils";
 import { formatDate } from "date-fns";
 import { Metadata } from "next";
