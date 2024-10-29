@@ -81,6 +81,11 @@ export default function ChatSidebar({ open, onClose }: ChatSidebarProps) {
           },
         }}
         Preview={ChannelPreviewCustom}
+        EmptyStateIndicator={() => (
+          <div className="p-4 text-center text-gray-500">
+            No messages yet. Start a new chat!
+          </div>
+        )}
       />
     </div>
   );
