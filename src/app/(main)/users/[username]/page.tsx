@@ -100,7 +100,16 @@ async function UserProfile({ user, loggedInUserId }: UserProfileProps) {
       <div className="flex flex-wrap gap-3 sm:flex-nowrap">
         <div className="me-auto space-y-3">
           <div>
-            <h1 className="text-3xl font-bold">{user.displayName}</h1>
+            <h1 className="text-3xl font-bold">
+              {user.displayName}
+              {user.isVerified && (
+                <img
+                  src="/verifiedcheckmark.gif"
+                  alt="Verified"
+                  className="inline-block h-6 w-6 ml-2"
+                />
+              )}
+            </h1>
             <div className="text-muted-foreground">@{user.username}</div>
           </div>
           <div>Member since {formatDate(user.createdAt, "MMM d, yyyy")}</div>
