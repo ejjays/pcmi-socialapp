@@ -5,7 +5,7 @@ import Linkify from "@/components/Linkify";
 import TrendsSidebar from "@/components/TrendsSidebar";
 import UserAvatar from "@/components/UserAvatar";
 import prisma from "@/lib/prisma";
-import { FollowerInfo, UserData } from "@/lib/types";
+import { FollowerInfo, getUserDataSelect, UserData } from "@/lib/types";
 import { formatNumber } from "@/lib/utils";
 import { formatDate } from "date-fns";
 import { Metadata } from "next";
@@ -13,7 +13,6 @@ import { notFound } from "next/navigation";
 import { cache } from "react";
 import EditProfileButton from "./EditProfileButton";
 import UserPosts from "./UserPosts";
-import { getUserDataSelect } from "@/lib/user";
 
 interface PageProps {
   params: { username: string };
@@ -101,16 +100,7 @@ async function UserProfile({ user, loggedInUserId }: UserProfileProps) {
       <div className="flex flex-wrap gap-3 sm:flex-nowrap">
         <div className="me-auto space-y-3">
           <div>
-            <h1 className="text-3xl font-bold">
-              {user.displayName}
-              {user.isVerified && (
-                <img
-                  src="/verifiedcheckmark.gif"
-                  alt="Verified"
-                  className="inline-block h-6 w-6 ml-2"
-                />
-              )}
-            </h1>
+            <h1 className="text-3xl font-bold">{user.displayName}</h1>
             <div className="text-muted-foreground">@{user.username}</div>
           </div>
           <div>Member since {formatDate(user.createdAt, "MMM d, yyyy")}</div>
@@ -142,6 +132,4 @@ async function UserProfile({ user, loggedInUserId }: UserProfileProps) {
       )}
     </div>
   );
-} 
-
-/* Hi */
+}
