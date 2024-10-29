@@ -13,6 +13,7 @@ import { notFound } from "next/navigation";
 import { cache } from "react";
 import EditProfileButton from "./EditProfileButton";
 import UserPosts from "./UserPosts";
+import { getUserDataSelect } from "@/lib/user";
 
 interface PageProps {
   params: { username: string };
